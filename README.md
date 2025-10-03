@@ -7,11 +7,11 @@ This repository contains the backend service for the **Smart Healthcare Appointm
 -----------------
 
 *   **Core Entities & Repositories:** ✅ Completed (Patient, Doctor, Appointment, etc.).
-    
+
 *   **Security Layer:** ⏳ In Progress (JWT generation and validation logic is being implemented).
     
 *   **Service & Controller Layers:** ⏳ In Progress (Developing business logic for user management, appointment booking, and prescription services).
-    
+   
 
 🏛️ Architecture Overview
 -------------------------
@@ -23,8 +23,8 @@ This backend follows a classic **3-tier architecture** to ensure a clean separat
 *   **Service Layer:** Contains the core business logic (@Service). It orchestrates data and operations by interacting with the repository layer.
     
 *   **Repository/Data Access Layer:** Manages all database interactions using **Spring Data JPA** (@Repository). It abstracts away the boilerplate code for data persistence.
-    
-*   Getty Images
+     ![Database ER Diagram](https://raw.githubusercontent.com/ankitdoi-coder/HealthCare-Backend/main/Requirements%20&%20Architecture/04_ERD_DB.jpg)
+*    ![Database Architecture Diagram](https://raw.githubusercontent.com/ankitdoi-coder/HealthCare-Backend/main/Requirements%20&%20Architecture/06_Architecture_workflow.jpg)
     
 
 ## 🚀 Technology Stack
