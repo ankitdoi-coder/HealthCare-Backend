@@ -1,2 +1,118 @@
-# HealthCare-Backend
-The backend service for the Smart Healthcare System, built with Spring Boot. This API handles all business logic, data persistence, and security for managing appointments and medical records. Project development commenced on September 30th.
+🏥 Healthcare Service Backend
+=============================
+
+This repository contains the backend service for the **Smart Healthcare Appointment & Records System**. It is a robust, secure, and scalable RESTful API built with **Java and the Spring Boot framework**. This service is responsible for all business logic, data persistence, and security operations.
+
+🚀 Project Status (As of 3rd October 2025)
+-----------------
+
+*   **Core Entities & Repositories:** ✅ Completed (Patient, Doctor, Appointment, etc.).
+    
+*   **Security Layer:** ⏳ In Progress (JWT generation and validation logic is being implemented).
+    
+*   **Service & Controller Layers:** ⏳ In Progress (Developing business logic for user management, appointment booking, and prescription services).
+    
+
+🏛️ Architecture Overview
+-------------------------
+
+This backend follows a classic **3-tier architecture** to ensure a clean separation of concerns, making the application maintainable and scalable.
+
+*   **Controller Layer:** Exposes the REST API endpoints (@RestController). It handles incoming HTTP requests, validates them, and delegates business operations to the service layer.
+    
+*   **Service Layer:** Contains the core business logic (@Service). It orchestrates data and operations by interacting with the repository layer.
+    
+*   **Repository/Data Access Layer:** Manages all database interactions using **Spring Data JPA** (@Repository). It abstracts away the boilerplate code for data persistence.
+    
+*   Getty Images
+    
+
+🛠️ Technology Stack
+--------------------
+
+## 🚀 Technology Stack
+
+| Component             | Technology / Library                 | Purpose                                                                 |
+|-----------------------|--------------------------------------|-------------------------------------------------------------------------|
+| **Framework**         | Spring Boot 3.x                      | Core framework for rapid, production-grade application development.     |
+| **Web**               | Spring Web                           | Building RESTful APIs (MVC architecture).                               |
+| **Security**          | Spring Security 6.x                  | Authentication, authorization, and securing endpoints.                  |
+| **Authentication**    | JSON Web Tokens (JWT)                | Stateless, secure token-based authentication.                           |
+| **Database**          | Spring Data JPA with Hibernate       | Object-Relational Mapping (ORM) for database interactions.              |
+| **DB Driver**         | PostgreSQL JDBC Driver               | Database connectivity.                                                  |
+| **API Documentation** | SpringDoc OpenAPI (Swagger)          | Automatically generating interactive API documentation.                 |
+| **Build Tool**        | Maven                                | Dependency management and project build lifecycle.                      |
+| **Testing**           | JUnit 5, Mockito                     | Unit and integration testing.                                           |
+| **Utilities**         | Lombok                               | Reducing boilerplate code (getters, setters, constructors).             |
+
+
+🔑 Security Implementation
+--------------------------
+
+Security is a core feature, implemented using **Spring Security** and **JWT**.
+
+1.  **Authentication:** Users authenticate via a /auth/login endpoint with their credentials.
+    
+2.  **Token Generation:** Upon successful authentication, the server generates a signed JWT containing the user's roles and identity.
+    
+3.  **Authorization:** For subsequent requests to protected endpoints, the client must include the JWT in the Authorization: Bearer header.
+    
+4.  **Filter Chain:** A custom JwtAuthFilter intercepts every request, validates the token, and sets the user's security context, enabling role-based access control (@PreAuthorize) on controller methods.
+    
+
+📖 API Documentation
+--------------------
+
+Comprehensive and interactive API documentation is automatically generated using **SpringDoc OpenAPI**. Once the application is running, the Swagger UI is available at:
+
+**Soon**
+
+This UI allows you to view all available endpoints, see their request/response models, and execute API calls directly from your browser.
+
+🗄️ Database Schema
+-------------------
+
+The database schema is designed to be normalized and efficient, capturing the essential relationships within the healthcare system.
+
+- Img
+
+🚀 Getting Started
+------------------
+
+Follow these instructions to get a local instance of the backend service up and running.
+
+### Prerequisites
+
+*   Java JDK 17 or later
+    
+*   Apache Maven
+    
+*   PostgreSQL (or another relational database)
+    
+
+### Installation & Setup
+
+1.  Bashgit clone https://github.com/ankitdoi-coder/healthcare-backend.gitcd healthcare-backend
+    
+2.  **Configure the database:**
+    
+    *   Create a new database in PostgreSQL (e.g., healthcaredb).
+        
+    *   Update the src/main/resources/application.properties file with your database credentials.
+        
+3.  Bashmvn spring-boot:runThe server will start on http://localhost:8080.
+    
+
+⚙️ Configuration & Environment Variables
+----------------------------------------
+
+For security and flexibility, sensitive data and environment-specific settings should be managed via environment variables. Create a .env file or configure your deployment environment with the following keys:
+
+
+| Variable              | Description                                   | Example Value                                               |
+|-----------------------|-----------------------------------------------|-------------------------------------------------------------|
+| **DB_URL**            | The JDBC URL for your database connection.    | `jdbc:postgresql://localhost:5432/healthcaredb`             |
+| **DB_USERNAME**       | The username for your database.               | `postgres`                                                  |
+| **DB_PASSWORD**       | The password for your database.               | `your_password`                                             |
+| **JWT_SECRET**        | A long, random string used to sign JWTs.      | `a-very-long-and-secure-random-secret-key-123`              |
+| **JWT_EXPIRATION_MS** | The expiration time for JWTs in milliseconds. | `86400000` (24 hours)                                       |
