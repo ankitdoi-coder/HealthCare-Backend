@@ -27,10 +27,8 @@ This backend follows a classic **3-tier architecture** to ensure a clean separat
 *   Getty Images
     
 
-🛠️ Technology Stack
---------------------
-
 ## 🚀 Technology Stack
+--------------------
 
 | Component             | Technology / Library                 | Purpose                                                                 |
 |-----------------------|--------------------------------------|-------------------------------------------------------------------------|
@@ -112,7 +110,7 @@ For security and flexibility, sensitive data and environment-specific settings s
 | Variable              | Description                                   | Example Value                                               |
 |-----------------------|-----------------------------------------------|-------------------------------------------------------------|
 | **DB_URL**            | The JDBC URL for your database connection.    | `jdbc:postgresql://localhost:5432/healthcaredb`             |
-| **DB_USERNAME**       | The username for your database.               | `postgres`                                                  |
+| **DB_USERNAME**       | The username for your database.               | `My SQL`                                                    |
 | **DB_PASSWORD**       | The password for your database.               | `your_password`                                             |
 | **JWT_SECRET**        | A long, random string used to sign JWTs.      | `a-very-long-and-secure-random-secret-key-123`              |
 | **JWT_EXPIRATION_MS** | The expiration time for JWTs in milliseconds. | `86400000` (24 hours)                                       |
