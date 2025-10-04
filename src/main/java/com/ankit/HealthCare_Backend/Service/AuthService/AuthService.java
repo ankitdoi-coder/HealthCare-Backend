@@ -1,10 +1,10 @@
 package com.ankit.HealthCare_Backend.Service.AuthService;
 
-import org.springframework.stereotype.Service;
+import com.ankit.HealthCare_Backend.DTO.RegisterRequestDTO;
+import com.ankit.HealthCare_Backend.DTO.UserResponseDTO;
 
-import com.ankit.HealthCare_Backend.Entity.User;
 
-@Service
 public interface AuthService {
-    User saveUser(User user);
+    //to register the user
+    UserResponseDTO registerUser(RegisterRequestDTO registerRequest);
 }

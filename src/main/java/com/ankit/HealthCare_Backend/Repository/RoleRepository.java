@@ -7,5 +7,5 @@ import com.ankit.HealthCare_Backend.Entity.Role;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role,Long>{
-
+    
 }

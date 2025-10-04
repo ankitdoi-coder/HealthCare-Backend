@@ -32,7 +32,7 @@ public class User {
 
 
     //Many users can be assosiated with one Role
-    @ManyToOne(fetch = FetchType.LAZY)         
+    @ManyToOne(fetch = FetchType.EAGER)         
     @JoinColumn(name = "role_id",nullable = false)
     private Role role;
 }
