@@ -6,52 +6,86 @@ import org.springframework.stereotype.Service;
 
 import com.ankit.HealthCare_Backend.DTO.RegisterRequestDTO;
 import com.ankit.HealthCare_Backend.DTO.UserResponseDTO;
+import com.ankit.HealthCare_Backend.Entity.Doctor;
+import com.ankit.HealthCare_Backend.Entity.Patient;
 import com.ankit.HealthCare_Backend.Entity.Role;
 import com.ankit.HealthCare_Backend.Entity.User;
+import com.ankit.HealthCare_Backend.Repository.DoctorRepository;
+import com.ankit.HealthCare_Backend.Repository.PatientRepository;
 import com.ankit.HealthCare_Backend.Repository.RoleRepository;
 import com.ankit.HealthCare_Backend.Repository.UserRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class AuthServicesImpl implements AuthService {
     @Autowired
-    UserRepository userRepo;
-
+    private UserRepository userRepo;
     @Autowired
-    RoleRepository roleRepo;
-
+    private RoleRepository roleRepo;
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private DoctorRepository doctorRepo;
+    @Autowired
+    private PatientRepository patientRepo;
 
     @Override
+    @Transactional
     public UserResponseDTO registerUser(RegisterRequestDTO registerRequest) {
-        //check for the role
         Role userRole = roleRepo.findById(registerRequest.getRoleId())
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
         ;
-
-        //create a new user entity
-        User newUser=new User();
-        //set the email to the new user entity(user)
+        // --- Part 1: Create the User record (the login account) ---
+        User newUser = new User();
         newUser.setEmail(registerRequest.getEmail());
-
-        //set the password with encoding 
         newUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-
-        //set the Role of the new user
         newUser.setRole(userRole);
+        newUser.setApproved("PATIENT".equalsIgnoreCase(userRole.getName())); // always will be true
+        User savedUser = userRepo.save(newUser);
 
-
-        //now save the new user Entity to the DB
-        User savedUser=userRepo.save(newUser);
-
-        //Create the response DTO
-        UserResponseDTO response=new UserResponseDTO();
+         // Create a basic response object first
+        UserResponseDTO response = new UserResponseDTO();
         response.setId(savedUser.getId());
         response.setEmail(savedUser.getEmail());
-        response.setRoleName(savedUser.getRole().getName()); //set the name of the Role 
+        response.setRoleName(savedUser.getRole().getName());
 
 
-        //return response DTO
+        // --- Part 2: Create the Doctor or Patient profile ---
+        if ("DOCTOR".equalsIgnoreCase(userRole.getName())) {
+            Doctor newDoctor = new Doctor();
+            newDoctor.setFirstName(registerRequest.getFirstName());
+            newDoctor.setLastName(registerRequest.getLastName());
+            newDoctor.setSpecialty(registerRequest.getSpecialty());
+            newDoctor.setUser(savedUser); // Link this profile to the User account
+            newDoctor.setApproved(false);
+            doctorRepo.save(newDoctor);
+
+            //  Add doctor-specific details to the response
+            response.setFirstName(newDoctor.getFirstName());
+            response.setLastName(newDoctor.getLastName());
+            response.setSpecialty(newDoctor.getSpecialty());
+            response.setMessage("Approval request sent to admin!");
+            return response;
+        } else if ("PATIENT".equalsIgnoreCase(userRole.getName())) {
+            Patient newPatient = new Patient();
+            newPatient.setFirstName(registerRequest.getFirstName());
+            newPatient.setLastName(registerRequest.getLastName());
+            newPatient.setContactNumber(registerRequest.getContactNumber());
+            newPatient.setDob(registerRequest.getDob());
+            newPatient.setUser(savedUser); // Link this profile to the User account
+            patientRepo.save(newPatient);
+
+            // Add patient-specific details to the response
+            response.setId(savedUser.getId());
+            response.setFirstName(newPatient.getFirstName());
+            response.setLastName(newPatient.getLastName());
+            response.setContactNumber(newPatient.getContactNumber());
+            response.setDob(newPatient.getDob());
+            response.setMessage("Registration successful!");
+        }
+        
+        //return the Response
         return response;
     }
 }
