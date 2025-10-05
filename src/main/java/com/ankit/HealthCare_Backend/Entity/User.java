@@ -30,6 +30,8 @@ public class User {
     @Column(nullable = false, name = "Password")
     private String password;
 
+    @Column(name = "is_approved",nullable = false)
+    private boolean isApproved = false;
 
     //Many users can be assosiated with one Role
     @ManyToOne(fetch = FetchType.EAGER)         

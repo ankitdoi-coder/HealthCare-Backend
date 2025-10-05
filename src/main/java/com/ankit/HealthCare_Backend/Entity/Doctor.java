@@ -1,13 +1,6 @@
 package com.ankit.HealthCare_Backend.Entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,18 +15,18 @@ public class Doctor {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false, unique = true) // A user can only be one doctor
     private User user;
 
-    @Column(name = "First Name", nullable = false)
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "Last Name", nullable = false)
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(name = "Speciality", nullable = false)
-    private String speciallity;
+    @Column(name = "specialty", nullable = false)
+    private String specialty;
 
-    @Column(name = "IS Approved", nullable = false)
-    private boolean isApproved = false; // Defaults to false
+    @Column(name="is_approved",nullable = false)
+    private boolean isApproved = false;
 }

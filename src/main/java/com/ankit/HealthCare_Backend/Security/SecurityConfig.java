@@ -32,6 +32,9 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll() // Entrance is public
+                .requestMatchers("/api/patient/**").hasRole("PATIENT")
+                .requestMatchers("/api/doctor/**").hasRole("DOCTOR")
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated() // All other areas require a wristband
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
