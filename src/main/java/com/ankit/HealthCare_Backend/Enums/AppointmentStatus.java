@@ -1,4 +1,4 @@
-package com.ankit.HealthCare_Backend.Entity.Enums;
+package com.ankit.HealthCare_Backend.Enums;
 
 public enum AppointmentStatus {
     SCHEDULED,
