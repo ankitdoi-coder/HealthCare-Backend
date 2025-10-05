@@ -1,6 +1,6 @@
 package com.ankit.HealthCare_Backend.Entity;
 
-import com.ankit.HealthCare_Backend.Entity.Enums.BillingStatus;
+import com.ankit.HealthCare_Backend.Enums.BillingStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
