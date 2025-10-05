@@ -3,12 +3,12 @@
 
 This repository contains the backend service for the **Smart Healthcare Appointment & Records System**. It is a robust, secure, and scalable RESTful API built with **Java and the Spring Boot framework**. This service is responsible for all business logic, data persistence, and security operations.
 
-🚀 Project Status (As of 3rd October 2025)
+🚀 Project Status (As of 5th October 2025)
 -----------------
 
 *   **Core Entities & Repositories:** ✅ Completed (Patient, Doctor, Appointment, etc.).
 
-*   **Security Layer:** ⏳ In Progress (JWT generation and validation logic is being implemented).
+*   **Security Layer:** ⏳ Register and Login is Completed With "JWT" Role Based Autorization is done Admin,Docotr, Patient.
     
 *   **Service & Controller Layers:** ⏳ In Progress (Developing business logic for user management, appointment booking, and prescription services).
    
@@ -90,15 +90,15 @@ Follow these instructions to get a local instance of the backend service up and 
 
 ### Installation & Setup
 
-1.  Bashgit clone https://github.com/ankitdoi-coder/healthcare-backend.gitcd healthcare-backend
+1.  Bash ```git clone https://github.com/ankitdoi-coder/healthcare-backend.gitcd healthcare-backend```
     
 2.  **Configure the database:**
     
-    *   Create a new database in PostgreSQL (e.g., healthcaredb).
+    *   Create a new database in MYSQL (e.g., healthcaredb).
         
     *   Update the src/main/resources/application.properties file with your database credentials.
         
-3.  Bashmvn spring-boot:runThe server will start on http://localhost:8080.
+3.  Bash ```mvn spring-boot:runThe server will start on http://localhost:8080.```
     
 
 ⚙️ Configuration & Environment Variables
