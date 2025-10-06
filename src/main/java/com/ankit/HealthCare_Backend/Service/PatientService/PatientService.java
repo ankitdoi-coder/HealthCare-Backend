@@ -8,4 +8,5 @@ import com.ankit.HealthCare_Backend.DTO.DoctorDTO;
 public interface PatientService {
     List<DoctorDTO> getAllDoctors();
     AppointmentDTO newAppointment(AppointmentDTO appointmentDTO);
+    List<AppointmentDTO> getMyAppointments();
 }

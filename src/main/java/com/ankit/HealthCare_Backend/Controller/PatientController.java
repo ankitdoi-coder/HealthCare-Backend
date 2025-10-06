@@ -38,7 +38,8 @@ public class PatientController {
 
     //View personal appointment history
     @GetMapping("/appointments/my")
-    public void myAppointments(){
-        
+    public ResponseEntity<List<AppointmentDTO>> myAppointments(){
+        List<AppointmentDTO> appointments = patientService.getMyAppointments();
+        return ResponseEntity.ok(appointments);
     }
 }
