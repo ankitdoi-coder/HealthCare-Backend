@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import java.util.List;
 
+import com.ankit.HealthCare_Backend.DTO.AppointmentDTO;
 import com.ankit.HealthCare_Backend.DTO.DoctorDTO;
-import com.ankit.HealthCare_Backend.Entity.Doctor;
 import com.ankit.HealthCare_Backend.Service.PatientService.PatientService;
+
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api/patient")
@@ -27,8 +29,10 @@ public class PatientController {
     }
 
     //Book a new Appointment
-    @PostMapping("/appointments")
-    public void newAppointment(){
+    @PostMapping("/appointments/new")
+    public ResponseEntity<AppointmentDTO> newAppointment(@RequestBody AppointmentDTO appointmentDTO){
+        AppointmentDTO newAppointment = patientService.newAppointment(appointmentDTO);
+        return ResponseEntity.ok(newAppointment);
 
     }
 
