@@ -1,6 +1,7 @@
 package com.ankit.HealthCare_Backend.Entity;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 
 import com.ankit.HealthCare_Backend.Enums.AppointmentStatus;
 
@@ -30,15 +31,15 @@ public class Appointment {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Patient Id", nullable = false)
+    @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Doctor Id", nullable = false)
+    @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
-    @Column(name = "Appointment Date", nullable = false)
-    private Date appointment_date;
+    @Column(name = "appointment_date", nullable = false)
+    private LocalDate appointmentDate;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
