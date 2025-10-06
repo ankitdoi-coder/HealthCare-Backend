@@ -8,7 +8,8 @@ This repository contains the backend service for the **Smart Healthcare Appointm
 
 *   **Core Entities & Repositories:** ✅ Completed (Patient, Doctor, Appointment, etc.).
 
-*   **Security Layer:** ⏳ Register and Login is Completed With "JWT" Role Based Autorization is done Admin,Docotr, Patient.
+*   **Security Layer:** ✅ Register and Login is Completed With "JWT" Role Based Autorization is done Admin,Docotr, Patient.
+*   **Patient can access the All Doctors: ✅** through ```http://localhost:8080/api/patient/doctors```GET
     
 *   **Service & Controller Layers:** ⏳ In Progress (Developing business logic for user management, appointment booking, and prescription services).
    
