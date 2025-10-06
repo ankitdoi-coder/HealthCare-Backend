@@ -20,7 +20,7 @@ This repository contains the backend service for the **Smart Healthcare Appointm
 This backend follows a classic **3-tier architecture** to ensure a clean separation of concerns, making the application maintainable and scalable.
 
 *   **Controller Layer:** Exposes the REST API endpoints (@RestController). It handles incoming HTTP requests, validates them, and delegates business operations to the service layer.
-    
+    +
 *   **Service Layer:** Contains the core business logic (@Service). It orchestrates data and operations by interacting with the repository layer.
     
 *   **Repository/Data Access Layer:** Manages all database interactions using **Spring Data JPA** (@Repository). It abstracts away the boilerplate code for data persistence.
