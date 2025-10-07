@@ -7,5 +7,5 @@ import com.ankit.HealthCare_Backend.Entity.Doctor;
 
 @Repository
 public interface DoctorRepository extends JpaRepository<Doctor,Long>{
-
+    Doctor findByUserId(Long userId);
 }

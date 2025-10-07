@@ -22,12 +22,12 @@ public class Prescription {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Appointment Id",nullable = false)
+    @JoinColumn(name = "appointment_Id",nullable = false)
     private Appointment appointment;
 
-    @Column(name = "Medication Details")
-    private String medication_details;
+    @Column(name = "medication_details")
+    private String medicationDetails;
 
-    @Column(name = "Dosage")
+    @Column(name = "dosage")
     private String dosages;
 }
