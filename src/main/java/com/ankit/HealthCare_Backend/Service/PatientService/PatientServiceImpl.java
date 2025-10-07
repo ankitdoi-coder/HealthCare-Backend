@@ -59,6 +59,17 @@ public class PatientServiceImpl implements PatientService {
         return dto;
     }
 
+    private AppointmentDTO convertToAppointmentDto(Appointment appointment) {
+        AppointmentDTO dto = new AppointmentDTO();
+        dto.setId(appointment.getId());
+        // Get the IDs from the objects to put in the DTO
+        dto.setPatientId(appointment.getPatient().getId());
+        dto.setDoctorId(appointment.getDoctor().getId());
+        dto.setAppointmentDate(appointment.getAppointmentDate());
+        dto.setStatus(appointment.getStatus());
+        return dto;
+    }
+
     // newAppointment
     @Override
     @Transactional
@@ -84,17 +95,6 @@ public class PatientServiceImpl implements PatientService {
         return convertToAppointmentDto(savedAppointment);
     }
 
-    private AppointmentDTO convertToAppointmentDto(Appointment appointment) {
-        AppointmentDTO dto = new AppointmentDTO();
-        dto.setId(appointment.getId());
-        // Get the IDs from the objects to put in the DTO
-        dto.setPatientId(appointment.getPatient().getId());
-        dto.setDoctorId(appointment.getDoctor().getId());
-        dto.setAppointmentDate(appointment.getAppointmentDate());
-        dto.setStatus(appointment.getStatus());
-        return dto;
-    }
-
     // My appointments
     @Override
     public List<AppointmentDTO> getMyAppointments() {
@@ -111,10 +111,12 @@ public class PatientServiceImpl implements PatientService {
         }
 
         // The 'User' table and 'Patient' table are separate. We need the Patient record
-        // that links to this User (patient.user_id -> users.id) and then query appointments
+        // that links to this User (patient.user_id -> users.id) and then query
+        // appointments
         Patient patient = patientRepo.findByUserId(user.getId());
         if (patient == null) {
-            // The authenticated user exists but is not a patient (or patient profile missing)
+            // The authenticated user exists but is not a patient (or patient profile
+            // missing)
             throw new RuntimeException("No patient profile found for user: " + email);
         }
 

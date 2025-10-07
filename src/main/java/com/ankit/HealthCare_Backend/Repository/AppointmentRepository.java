@@ -11,4 +11,7 @@ import com.ankit.HealthCare_Backend.Entity.Appointment;
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
     // in AppointmentRepository (extends JpaRepository<Appointment, Long>)
     List<Appointment> findByPatientId(Long patientId);
+    List<Appointment> findByDoctorId(Long doctorId);
+    Appointment findByPatientIdAndDoctorIdAndAppointmentDate(Long patientId, Long doctorId, java.time.LocalDate appointmentDate);
+    Appointment findByIdAndDoctorId(Long id, Long doctorId);
 }

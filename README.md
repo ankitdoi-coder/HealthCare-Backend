@@ -3,14 +3,21 @@
 
 This repository contains the backend service for the **Smart Healthcare Appointment & Records System**. It is a robust, secure, and scalable RESTful API built with **Java and the Spring Boot framework**. This service is responsible for all business logic, data persistence, and security operations.
 
-🚀 Project Status (As of 6th October 2025)
+🚀 Project Status (As of 7th October 2025)
 -----------------
 
 *   **Core Entities & Repositories:** ✅ Completed (Patient, Doctor, Appointment, etc.).
 
 *   **Security Layer:** ✅ Register and Login is Completed With "JWT" Role Based Autorization is done Admin,Docotr, Patient.
+
+## Patient Endpoints
 *   **Patient can access the All Doctors: ✅** through ```http://localhost:8080/api/patient/doctors```GET
-*   **Patient can Book a Appointment from a Doctors: ✅** through ```http://localhost:8080/api/patient/appointments/new```POST    
+*   **Patient can Book a Appointment from a Doctors: ✅** through ```http://localhost:8080/api/patient/appointments/new```POST
+*   ** View personal appointment history: ✅**through ```http://localhost:8080/api/patient/appointments/my```GET
+  
+## Doctors Endpoints
+*   **View upcoming appointments: ✅**through ```http://localhost:8080/api/patient/appointments/my```GET
+*   **Create a new prescription for a completed appointment: ✅**through ```http://localhost:8080/api/doctor/prescriptions```Post
 *   **Service & Controller Layers:** ⏳ In Progress (Developing business logic for user management, appointment booking, and prescription services).
    
 
