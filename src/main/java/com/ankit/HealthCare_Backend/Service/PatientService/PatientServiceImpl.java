@@ -124,7 +124,7 @@ public class PatientServiceImpl implements PatientService {
         List<Appointment> appointments = appointmentRepo.findByPatientId(patientId);
 
         return appointments.stream()
-                .map(this::convertToAppointmentDto)
+                .map(appointment -> convertToAppointmentDto(appointment))
                 .collect(Collectors.toList());
     }
 

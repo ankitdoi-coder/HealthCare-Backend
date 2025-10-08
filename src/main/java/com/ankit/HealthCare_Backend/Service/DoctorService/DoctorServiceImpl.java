@@ -32,17 +32,6 @@ public class DoctorServiceImpl implements DoctorService {
     @Autowired
     private PrescriptionRepository prescriptionRepo;
 
-    private AppointmentDTO convertToAppointmentDto(Appointment appointment) {
-        AppointmentDTO dto = new AppointmentDTO();
-        dto.setId(appointment.getId());
-        // Get the IDs from the objects to put in the DTO
-        dto.setPatientId(appointment.getPatient().getId());
-        dto.setDoctorId(appointment.getDoctor().getId());
-        dto.setAppointmentDate(appointment.getAppointmentDate());
-        dto.setStatus(appointment.getStatus());
-        return dto;
-    }
-
     @Override
     public List<AppointmentDTO> myUpcomingAppointments() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -68,8 +57,19 @@ public class DoctorServiceImpl implements DoctorService {
         List<Appointment> appointments = appointmentRepo.findByDoctorId(doctorId);
 
         return appointments.stream()
-                .map(this::convertToAppointmentDto)
+                .map(appointment -> convertToAppointmentDto(appointment))
                 .collect(Collectors.toList());
+    }
+
+    private AppointmentDTO convertToAppointmentDto(Appointment appointment) {
+        AppointmentDTO dto = new AppointmentDTO();
+        dto.setId(appointment.getId());
+        // Get the IDs from the objects to put in the DTO
+        dto.setPatientId(appointment.getPatient().getId());
+        dto.setDoctorId(appointment.getDoctor().getId());
+        dto.setAppointmentDate(appointment.getAppointmentDate());
+        dto.setStatus(appointment.getStatus());
+        return dto;
     }
 
     @Override
@@ -86,14 +86,13 @@ public class DoctorServiceImpl implements DoctorService {
         return convertToPrescriptionDto(savedPrescription);
     }
 
-
     // Helper method to convert the entity to a DTO
     private PrescriptionDTO convertToPrescriptionDto(Prescription prescription) {
-    PrescriptionDTO dto = new PrescriptionDTO();
-    dto.setId(prescription.getId()); // This will now have a value
-    dto.setAppointmentId(prescription.getAppointment().getId()); // Get the ID from the nested object
-    dto.setDosages(prescription.getDosages());
-    dto.setMedicationDetails(prescription.getMedicationDetails());
-    return dto;
-}
+        PrescriptionDTO dto = new PrescriptionDTO();
+        dto.setId(prescription.getId()); // This will now have a value
+        dto.setAppointmentId(prescription.getAppointment().getId()); // Get the ID from the nested object
+        dto.setDosages(prescription.getDosages());
+        dto.setMedicationDetails(prescription.getMedicationDetails());
+        return dto;
+    }
 }
