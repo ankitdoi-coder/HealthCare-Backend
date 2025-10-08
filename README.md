@@ -23,7 +23,7 @@ This repository contains the backend service for the **Smart Healthcare Appointm
 *   **Get all doctors, including pending ones: ✅**through ```http://localhost:8080/api/admin/doctors```GET
 *   **Approve a doctor's registration.: ✅**through ```http://localhost:8080/api/admin/doctors/{id}/approve```PUT
 *   **Get all patients.: ✅**through ```http://localhost:8080/api/admin/patients```GET
-*   **Service & Controller Layers:** ⏳ In Progress (Developing business logic for user management, appointment booking, and prescription services).
+*   **Service & Controller Layers:** ✅ Completed (Developed business logic for user management, appointment booking, and prescription services).
    
 
 🏛️ Architecture Overview
