@@ -1,9 +1,9 @@
 package com.ankit.HealthCare_Backend.Service;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,9 +20,25 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepo; // Changed to private for better encapsulation
+    // These values are injected from your application.properties file
+    @Value("${app.admin.email}")
+    private String adminEmail;
+
+    @Value("${app.admin.password}")
+    private String adminPasswordHash; // This is the HASHED password
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
+        // --- Step 1: Check if the login is for the hardcoded admin ---
+        if (adminEmail.equals(email)) {
+            return org.springframework.security.core.userdetails.User
+                    .withUsername(adminEmail)
+                    .password(adminPasswordHash) // Use the hashed password from properties
+                    .roles("ADMIN")
+                    .build();
+        }
+
         User user = userRepo.findByEmail(email);
         if (user == null) {
             throw new UsernameNotFoundException("User not found with email: " + email);

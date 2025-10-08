@@ -3,7 +3,7 @@
 
 This repository contains the backend service for the **Smart Healthcare Appointment & Records System**. It is a robust, secure, and scalable RESTful API built with **Java and the Spring Boot framework**. This service is responsible for all business logic, data persistence, and security operations.
 
-🚀 Project Status (As of 7th October 2025)
+🚀 Project Status (As of 8th October 2025)
 -----------------
 
 *   **Core Entities & Repositories:** ✅ Completed (Patient, Doctor, Appointment, etc.).
@@ -18,6 +18,11 @@ This repository contains the backend service for the **Smart Healthcare Appointm
 ## Doctors Endpoints
 *   **View upcoming appointments: ✅**through ```http://localhost:8080/api/patient/appointments/my```GET
 *   **Create a new prescription for a completed appointment: ✅**through ```http://localhost:8080/api/doctor/prescriptions```Post
+  
+## Admin Endpoints   
+*   **Get all doctors, including pending ones: ✅**through ```http://localhost:8080/api/admin/doctors```GET
+*   **Approve a doctor's registration.: ✅**through ```http://localhost:8080/api/admin/doctors/{id}/approve```PUT
+*   **Get all patients.: ✅**through ```http://localhost:8080/api/admin/patients```GET
 *   **Service & Controller Layers:** ⏳ In Progress (Developing business logic for user management, appointment booking, and prescription services).
    
 
@@ -45,7 +50,7 @@ This backend follows a classic **3-tier architecture** to ensure a clean separat
 | **Security**          | Spring Security 6.x                  | Authentication, authorization, and securing endpoints.                  |
 | **Authentication**    | JSON Web Tokens (JWT)                | Stateless, secure token-based authentication.                           |
 | **Database**          | Spring Data JPA with Hibernate       | Object-Relational Mapping (ORM) for database interactions.              |
-| **DB Driver**         | PostgreSQL JDBC Driver               | Database connectivity.                                                  |
+| **DB Driver**         | MYSQL JDBC Driver               | Database connectivity.                                                  |
 | **API Documentation** | SpringDoc OpenAPI (Swagger)          | Automatically generating interactive API documentation.                 |
 | **Build Tool**        | Maven                                | Dependency management and project build lifecycle.                      |
 | **Testing**           | JUnit 5, Mockito                     | Unit and integration testing.                                           |
