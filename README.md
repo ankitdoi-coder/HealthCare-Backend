@@ -28,7 +28,9 @@ This repository contains the backend service for the **Smart Healthcare Appointm
 
 🏛️ Architecture Overview
 -------------------------
+  ![Database Architecture Diagram](https://raw.githubusercontent.com/ankitdoi-coder/HealthCare-Backend/main/Requirements%20&%20Architecture/06_Architecture_workflow.png)
 
+  
 This backend follows a classic **3-tier architecture** to ensure a clean separation of concerns, making the application maintainable and scalable.
 
 *   **Controller Layer:** Exposes the REST API endpoints (@RestController). It handles incoming HTTP requests, validates them, and delegates business operations to the service layer.
@@ -36,8 +38,8 @@ This backend follows a classic **3-tier architecture** to ensure a clean separat
 *   **Service Layer:** Contains the core business logic (@Service). It orchestrates data and operations by interacting with the repository layer.
     
 *   **Repository/Data Access Layer:** Manages all database interactions using **Spring Data JPA** (@Repository). It abstracts away the boilerplate code for data persistence.
-     ![Database ER Diagram](https://raw.githubusercontent.com/ankitdoi-coder/HealthCare-Backend/main/Requirements%20&%20Architecture/04_ERD_DB.jpg)
-     ![Database Architecture Diagram](https://raw.githubusercontent.com/ankitdoi-coder/HealthCare-Backend/main/Requirements%20&%20Architecture/06_Architecture_workflow.png)
+    
+   
     
 
 ## 🚀 Technology Stack
@@ -85,7 +87,7 @@ This UI allows you to view all available endpoints, see their request/response m
 
 The database schema is designed to be normalized and efficient, capturing the essential relationships within the healthcare system.
 
-- Img
+ ![Database ER Diagram](https://raw.githubusercontent.com/ankitdoi-coder/HealthCare-Backend/main/Requirements%20&%20Architecture/04_ERD_DB.jpg)
 
 🚀 Getting Started
 ------------------
