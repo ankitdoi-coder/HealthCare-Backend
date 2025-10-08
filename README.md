@@ -77,8 +77,8 @@ Security is a core feature, implemented using **Spring Security** and **JWT**.
 --------------------
 
 Comprehensive and interactive API documentation is automatically generated using **SpringDoc OpenAPI**. Once the application is running, the Swagger UI is available at:
+(http://localhost:8080/swagger-ui/index.html#/)
 
-**Soon**
 
 This UI allows you to view all available endpoints, see their request/response models, and execute API calls directly from your browser.
 
