@@ -1,6 +1,3 @@
-//The "Wristband Checker" Filter (JwtFilter.java)
-//This is a special guard who stands in front of every endpoint.
-//Their only job is to check for a valid wristband on every request.
 package com.ankit.HealthCare_Backend.JWT;
 
 import jakarta.servlet.FilterChain;
@@ -34,12 +31,20 @@ public class JwtFilter extends OncePerRequestFilter {
             @org.springframework.lang.NonNull FilterChain filterChain)
             throws ServletException, IOException {
 
+        // ✅ CRITICAL FIX: Skip JWT validation for public endpoints
+        String path = request.getRequestURI();
+        if (path.startsWith("/api/auth/")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         // matches the authorization header with the token
         final String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
+        
         // Cuts off the "Bearer " part and keeps only the actual token.
         final String jwt = authHeader.substring(7);
 
@@ -48,11 +53,9 @@ public class JwtFilter extends OncePerRequestFilter {
 
         // Two checks before authenticating
         // Is there a username inside the token?
-        // Has Spring Security already authenticated this request? (avoid duplicate
-        // work)
+        // Has Spring Security already authenticated this request? (avoid duplicate work)
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            // Loads full user info (password hash, roles, authorities) from DB by
-            // email/username.
+            // Loads full user info (password hash, roles, authorities) from DB by email/username.
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
             if (jwtService.isTokenValid(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
@@ -61,7 +64,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
-        // Finally, hand over control to the next filter or the actual controller.
+        
         filterChain.doFilter(request, response);
     }
 }

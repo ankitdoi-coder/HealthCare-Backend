@@ -19,7 +19,7 @@ import com.ankit.HealthCare_Backend.Repository.UserRepository;
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRepo; // Changed to private for better encapsulation
+    private UserRepository userRepo; 
     // These values are injected from your application.properties file
     @Value("${app.admin.email}")
     private String adminEmail;
@@ -44,7 +44,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found with email: " + email);
         }
 
-        // ✅ CORRECTED LOGIC
+        
         // Step 1: Get the entire Role object from the user.
         Role roleObject = user.getRole();
 

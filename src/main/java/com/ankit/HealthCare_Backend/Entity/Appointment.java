@@ -2,7 +2,7 @@ package com.ankit.HealthCare_Backend.Entity;
 
 import java.time.LocalDate;
 
-
+import com.ankit.HealthCare_Backend.DTO.UpdateStatusDTO;
 import com.ankit.HealthCare_Backend.Enums.AppointmentStatus;
 
 import jakarta.persistence.Column;

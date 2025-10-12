@@ -9,5 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginResponseDTO {
-    private String token;
+    private String jwt; 
+    private String message;
+
+    public LoginResponseDTO(String jwt) {
+        this.jwt = jwt;
+    }
 }

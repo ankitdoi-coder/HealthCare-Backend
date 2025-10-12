@@ -41,7 +41,7 @@ public class AuthServicesImpl implements AuthService {
         newUser.setEmail(registerRequest.getEmail());
         newUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         newUser.setRole(userRole);
-        newUser.setApproved("PATIENT".equalsIgnoreCase(userRole.getName()));
+        newUser.setApproved(true); //will be always true for patient
         User savedUser = userRepo.save(newUser);
 
         // Create a basic response object first
