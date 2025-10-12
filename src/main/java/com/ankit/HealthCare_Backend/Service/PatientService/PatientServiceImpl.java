@@ -36,12 +36,12 @@ public class PatientServiceImpl implements PatientService {
     @Autowired
     private UserRepository userRepo;
 
-    // Alldoctors
+    //Get All Doctors
     @Override
     public List<DoctorDTO> getAllDoctors() {
         return doctorRepo.findAll()
                 .stream()
-                // .filter(Doctor::isApproved) // Only show approved doctors!
+                .filter(Doctor::isApproved) // Only show approved doctors!
                 .map(this::convertToDoctorDto)
                 .collect(Collectors.toList());
     }
@@ -86,7 +86,7 @@ public class PatientServiceImpl implements PatientService {
         newAppointment.setPatient(patient);
         newAppointment.setDoctor(doctor);
         newAppointment.setAppointmentDate(appointmentDTO.getAppointmentDate());
-        newAppointment.setStatus(AppointmentStatus.SCHEDULED); // Set a default status
+        newAppointment.setStatus(AppointmentStatus.PENDING); // Set a default status
 
         // 3. Save the new appointment
         Appointment savedAppointment = appointmentRepo.save(newAppointment);

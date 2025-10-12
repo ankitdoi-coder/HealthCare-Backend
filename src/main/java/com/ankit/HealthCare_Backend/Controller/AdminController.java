@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ankit.HealthCare_Backend.DTO.DoctorDTO;
 import com.ankit.HealthCare_Backend.DTO.PatientDTO;
-import com.ankit.HealthCare_Backend.Entity.Patient;
 import com.ankit.HealthCare_Backend.Service.AdminService.AdminService;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;

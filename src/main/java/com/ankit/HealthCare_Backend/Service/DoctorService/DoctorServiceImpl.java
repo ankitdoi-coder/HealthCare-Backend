@@ -8,13 +8,16 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ankit.HealthCare_Backend.DTO.AppointmentDTO;
 import com.ankit.HealthCare_Backend.DTO.PrescriptionDTO;
+import com.ankit.HealthCare_Backend.DTO.UpdateStatusDTO;
 import com.ankit.HealthCare_Backend.Entity.Appointment;
 import com.ankit.HealthCare_Backend.Entity.Doctor;
 import com.ankit.HealthCare_Backend.Entity.Prescription;
 import com.ankit.HealthCare_Backend.Entity.User;
+import com.ankit.HealthCare_Backend.Enums.AppointmentStatus;
 import com.ankit.HealthCare_Backend.Repository.AppointmentRepository;
 import com.ankit.HealthCare_Backend.Repository.DoctorRepository;
 import com.ankit.HealthCare_Backend.Repository.PrescriptionRepository;
@@ -32,6 +35,9 @@ public class DoctorServiceImpl implements DoctorService {
     @Autowired
     private PrescriptionRepository prescriptionRepo;
 
+
+
+    //Get upcoming appoinments of doctor
     @Override
     public List<AppointmentDTO> myUpcomingAppointments() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -72,6 +78,7 @@ public class DoctorServiceImpl implements DoctorService {
         return dto;
     }
 
+    // createPrescription
     @Override
     public PrescriptionDTO createPrescription(PrescriptionDTO prescriptionDTO) {
         Appointment appointment = appointmentRepo.findById(prescriptionDTO.getAppointmentId())
@@ -95,4 +102,15 @@ public class DoctorServiceImpl implements DoctorService {
         dto.setMedicationDetails(prescription.getMedicationDetails());
         return dto;
     }
+
+    @Override
+    @Transactional
+    public AppointmentDTO updateAppointmentStatus(Long id, UpdateStatusDTO status)  {
+        Appointment appointment=appointmentRepo.findById(id).orElseThrow(() -> new RuntimeException("Appointment not found with id: " + id));
+        appointment.setStatus(status.getStatus());
+        Appointment savedAppointment = appointmentRepo.save(appointment); 
+        return  convertToAppointmentDto(savedAppointment);
+    }
+
+    
 }
