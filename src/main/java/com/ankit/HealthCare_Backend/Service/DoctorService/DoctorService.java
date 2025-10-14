@@ -11,4 +11,5 @@ public interface DoctorService {
     List<AppointmentDTO> myUpcomingAppointments();
     PrescriptionDTO createPrescription(@RequestBody PrescriptionDTO prescriptionDTO);
     AppointmentDTO updateAppointmentStatus(Long id, UpdateStatusDTO status);
+    List<PrescriptionDTO> getMyPrescriptions();
 }

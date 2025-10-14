@@ -46,4 +46,11 @@ public class DoctorController {
         PrescriptionDTO createdPrescription = doctorService.createPrescription(prescriptionDTO);
         return ResponseEntity.ok(createdPrescription);
     }
+
+    // Get all prescriptions created by this doctor
+    @GetMapping("/prescriptions")
+    public ResponseEntity<List<PrescriptionDTO>> getMyPrescriptions() {
+        List<PrescriptionDTO> prescriptions = doctorService.getMyPrescriptions();
+        return ResponseEntity.ok(prescriptions);
+    }
 }

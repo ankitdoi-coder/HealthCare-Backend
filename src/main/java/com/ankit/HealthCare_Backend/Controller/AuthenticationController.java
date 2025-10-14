@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 
+import com.ankit.HealthCare_Backend.DTO.ForgotPasswordRequestDTO;
 import com.ankit.HealthCare_Backend.DTO.LoginRequestDTO;
 import com.ankit.HealthCare_Backend.DTO.LoginResponseDTO;
+import com.ankit.HealthCare_Backend.DTO.MessageResponseDTO;
 import com.ankit.HealthCare_Backend.DTO.RegisterRequestDTO;
+import com.ankit.HealthCare_Backend.DTO.ResetPasswordRequestDTO;
 import com.ankit.HealthCare_Backend.DTO.UserResponseDTO;
 import com.ankit.HealthCare_Backend.Entity.Doctor;
 import com.ankit.HealthCare_Backend.Entity.User;
@@ -103,6 +106,26 @@ public class AuthenticationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                 new LoginResponseDTO(null, "An error occurred during login: " + e.getMessage())
             );
+        }
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<MessageResponseDTO> forgotPassword(@RequestBody ForgotPasswordRequestDTO request) {
+        try {
+            String message = authService.forgotPassword(request.getEmail());
+            return ResponseEntity.ok(new MessageResponseDTO(message));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new MessageResponseDTO(e.getMessage()));
+        }
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<MessageResponseDTO> resetPassword(@RequestBody ResetPasswordRequestDTO request) {
+        try {
+            String message = authService.resetPassword(request.getToken(), request.getNewPassword());
+            return ResponseEntity.ok(new MessageResponseDTO(message));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new MessageResponseDTO(e.getMessage()));
         }
     }
 }

@@ -9,5 +9,7 @@ public class DoctorDTO {
     private String firstName;
     private String lastName;
     private String specialty;
+    private String email;
+    private int experience; // in years
     private boolean isApproved;
 }

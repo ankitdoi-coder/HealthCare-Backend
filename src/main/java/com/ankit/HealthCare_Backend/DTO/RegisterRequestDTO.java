@@ -17,4 +17,5 @@ public class RegisterRequestDTO {
     private String specialty;
     private Long contactNumber;
     private LocalDate dob;
+    private int experience; // in years
 }
