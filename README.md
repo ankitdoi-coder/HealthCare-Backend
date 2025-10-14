@@ -3,7 +3,7 @@
 
 This repository contains the backend service for the **Smart Healthcare Appointment & Records System**. It is a robust, secure, and scalable RESTful API built with **Java and the Spring Boot framework**. This service is responsible for all business logic, data persistence, and security operations.
 
-🚀 Project Status (As of 12th October 2025)
+🚀 Project Status (As of 14th October 2025)
 -----------------
 
 *   **Core Entities & Repositories:** ✅ Completed (Patient, Doctor, Appointment, etc.).

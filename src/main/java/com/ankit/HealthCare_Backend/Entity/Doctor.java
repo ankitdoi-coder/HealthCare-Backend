@@ -29,4 +29,7 @@ public class Doctor {
 
     @Column(name="is_approved",nullable = false)
     private boolean isApproved = false;
+
+    @Column(name = "experience", nullable = false)
+    private int experience; // in years
 }

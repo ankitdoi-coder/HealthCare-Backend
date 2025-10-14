@@ -17,7 +17,6 @@ import com.ankit.HealthCare_Backend.Entity.Appointment;
 import com.ankit.HealthCare_Backend.Entity.Doctor;
 import com.ankit.HealthCare_Backend.Entity.Prescription;
 import com.ankit.HealthCare_Backend.Entity.User;
-import com.ankit.HealthCare_Backend.Enums.AppointmentStatus;
 import com.ankit.HealthCare_Backend.Repository.AppointmentRepository;
 import com.ankit.HealthCare_Backend.Repository.DoctorRepository;
 import com.ankit.HealthCare_Backend.Repository.PrescriptionRepository;
@@ -67,16 +66,7 @@ public class DoctorServiceImpl implements DoctorService {
                 .collect(Collectors.toList());
     }
 
-    private AppointmentDTO convertToAppointmentDto(Appointment appointment) {
-        AppointmentDTO dto = new AppointmentDTO();
-        dto.setId(appointment.getId());
-        // Get the IDs from the objects to put in the DTO
-        dto.setPatientId(appointment.getPatient().getId());
-        dto.setDoctorId(appointment.getDoctor().getId());
-        dto.setAppointmentDate(appointment.getAppointmentDate());
-        dto.setStatus(appointment.getStatus());
-        return dto;
-    }
+    
 
     // createPrescription
     @Override
@@ -94,6 +84,19 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     // Helper method to convert the entity to a DTO
+    private AppointmentDTO convertToAppointmentDto(Appointment appointment) {
+    AppointmentDTO dto = new AppointmentDTO();
+    dto.setId(appointment.getId());
+    dto.setPatientId(appointment.getPatient().getId());
+    dto.setPatientFirstName(appointment.getPatient().getFirstName());
+    dto.setPatientLastName(appointment.getPatient().getLastName());
+    dto.setDoctorId(appointment.getDoctor().getId());
+    dto.setAppointmentDate(appointment.getAppointmentDate());
+    dto.setStatus(appointment.getStatus());
+    return dto;
+}
+
+
     private PrescriptionDTO convertToPrescriptionDto(Prescription prescription) {
         PrescriptionDTO dto = new PrescriptionDTO();
         dto.setId(prescription.getId()); // This will now have a value
@@ -112,5 +115,43 @@ public class DoctorServiceImpl implements DoctorService {
         return  convertToAppointmentDto(savedAppointment);
     }
 
-    
+    @Override
+    public List<PrescriptionDTO> getMyPrescriptions() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated() || auth instanceof AnonymousAuthenticationToken) {
+            throw new RuntimeException("Unauthenticated");
+        }
+
+        String email = auth.getName();
+        User user = userRepo.findByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("User not found with Email " + email);
+        }
+
+        Doctor doctor = doctorRepo.findByUserId(user.getId());
+        if (doctor == null) {
+            throw new RuntimeException("No doctor profile found for user: " + email);
+        }
+
+        Long doctorId = doctor.getId();
+        List<Appointment> doctorAppointments = appointmentRepo.findByDoctorId(doctorId);
+        
+        return doctorAppointments.stream()
+                .flatMap(appointment -> prescriptionRepo.findByAppointmentId(appointment.getId()).stream())
+                .map(this::convertToPrescriptionDtoWithPatient)
+                .collect(Collectors.toList());
+    }
+
+    private PrescriptionDTO convertToPrescriptionDtoWithPatient(Prescription prescription) {
+        PrescriptionDTO dto = new PrescriptionDTO();
+        dto.setId(prescription.getId());
+        dto.setAppointmentId(prescription.getAppointment().getId());
+        dto.setPatientId(prescription.getAppointment().getPatient().getId());
+        dto.setPatientFirstName(prescription.getAppointment().getPatient().getFirstName());
+        dto.setPatientLastName(prescription.getAppointment().getPatient().getLastName());
+        dto.setDosages(prescription.getDosages());
+        dto.setMedicationDetails(prescription.getMedicationDetails());
+        dto.setCreatedAt(prescription.getCreatedAt());
+        return dto;
+    }
 }
