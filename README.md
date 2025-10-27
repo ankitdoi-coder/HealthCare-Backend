@@ -23,12 +23,14 @@ This repository contains the backend service for the **Smart Healthcare Appointm
 *   **Get all doctors, including pending ones: ✅**through ```http://localhost:8080/api/admin/doctors```GET
 *   **Approve a doctor's registration.: ✅**through ```http://localhost:8080/api/admin/doctors/{id}/approve```PUT
 *   **Get all patients.: ✅**through ```http://localhost:8080/api/admin/patients```GET
-*   **Service & Controller Layers:** ⏳ In Progress (Developing business logic for user management, appointment booking, and prescription services).
+*   **Service & Controller Layers:** ✅ Completed (Developed business logic for user management, appointment booking, and prescription services).
    
 
 🏛️ Architecture Overview
 -------------------------
+  ![Database Architecture Diagram](https://raw.githubusercontent.com/ankitdoi-coder/HealthCare-Backend/main/Requirements%20&%20Architecture/06_Architecture_workflow.png)
 
+  
 This backend follows a classic **3-tier architecture** to ensure a clean separation of concerns, making the application maintainable and scalable.
 
 *   **Controller Layer:** Exposes the REST API endpoints (@RestController). It handles incoming HTTP requests, validates them, and delegates business operations to the service layer.
@@ -36,8 +38,8 @@ This backend follows a classic **3-tier architecture** to ensure a clean separat
 *   **Service Layer:** Contains the core business logic (@Service). It orchestrates data and operations by interacting with the repository layer.
     
 *   **Repository/Data Access Layer:** Manages all database interactions using **Spring Data JPA** (@Repository). It abstracts away the boilerplate code for data persistence.
-     ![Database ER Diagram](https://raw.githubusercontent.com/ankitdoi-coder/HealthCare-Backend/main/Requirements%20&%20Architecture/04_ERD_DB.jpg)
-     ![Database Architecture Diagram](https://raw.githubusercontent.com/ankitdoi-coder/HealthCare-Backend/main/Requirements%20&%20Architecture/06_Architecture_workflow.png)
+    
+   
     
 
 ## 🚀 Technology Stack
@@ -75,8 +77,8 @@ Security is a core feature, implemented using **Spring Security** and **JWT**.
 --------------------
 
 Comprehensive and interactive API documentation is automatically generated using **SpringDoc OpenAPI**. Once the application is running, the Swagger UI is available at:
+(http://localhost:8080/swagger-ui/index.html#/)
 
-**Soon**
 
 This UI allows you to view all available endpoints, see their request/response models, and execute API calls directly from your browser.
 
@@ -85,7 +87,7 @@ This UI allows you to view all available endpoints, see their request/response m
 
 The database schema is designed to be normalized and efficient, capturing the essential relationships within the healthcare system.
 
-- Img
+ ![Database ER Diagram](https://raw.githubusercontent.com/ankitdoi-coder/HealthCare-Backend/main/Requirements%20&%20Architecture/04_ERD_DB.jpg)
 
 🚀 Getting Started
 ------------------
