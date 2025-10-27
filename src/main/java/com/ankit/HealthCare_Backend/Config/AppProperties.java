@@ -2,10 +2,12 @@
 package com.ankit.HealthCare_Backend.Config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 import lombok.Data;
 import lombok.Getter;
 
+@Component
 @ConfigurationProperties(prefix = "app")
 @Getter
 public class AppProperties {
