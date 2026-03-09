@@ -44,6 +44,17 @@ public class JwtService {
                 .compact();
     }
 
+    // Admin Token Generator
+    public String generateAdminToken(String email, String role) {
+        return Jwts.builder()
+                .setSubject(email)
+                .claim("roles", java.util.List.of("ROLE_" + role))
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) // 24 hours
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
     // Check token owner matches the UserDetails
     // Check token is not expired.
     public boolean isTokenValid(String token, UserDetails userDetails) {

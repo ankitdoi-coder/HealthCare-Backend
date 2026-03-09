@@ -11,21 +11,10 @@ import lombok.Getter;
 public class AppProperties {
 
     private final Jwt jwt = new Jwt();
-    private final Admin admin = new Admin();
 
-    
     // Nested classes for organization
     @Data
     public static class Jwt {
         private String secret;
-    }
-
-    //for admin
-    @Data
-    public static class Admin {
-        private String email;
-        private String password;
-
-        
     }
 }

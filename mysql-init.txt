@@ -1,0 +1,3 @@
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'healthcare123';
+CREATE DATABASE IF NOT EXISTS healthcaredb;
+FLUSH PRIVILEGES;
