@@ -1,5 +1,7 @@
 package com.ankit.HealthCare_Backend.Controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,9 +25,11 @@ import com.ankit.HealthCare_Backend.DTO.MessageResponseDTO;
 import com.ankit.HealthCare_Backend.DTO.RegisterRequestDTO;
 import com.ankit.HealthCare_Backend.DTO.ResetPasswordRequestDTO;
 import com.ankit.HealthCare_Backend.DTO.UserResponseDTO;
+import com.ankit.HealthCare_Backend.Entity.Admin;
 import com.ankit.HealthCare_Backend.Entity.Doctor;
 import com.ankit.HealthCare_Backend.Entity.User;
 import com.ankit.HealthCare_Backend.JWT.JwtService;
+import com.ankit.HealthCare_Backend.Repository.AdminRepository;
 import com.ankit.HealthCare_Backend.Repository.DoctorRepository;
 import com.ankit.HealthCare_Backend.Repository.UserRepository;
 import com.ankit.HealthCare_Backend.Service.CustomUserDetailsService;
@@ -39,6 +44,10 @@ public class AuthenticationController {
     private DoctorRepository doctorRepo;
     @Autowired
     private UserRepository userRepo;
+    @Autowired
+    private AdminRepository adminRepo;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private final CustomUserDetailsService customUserDetailsService;
     private final AuthenticationManager authenticationManager;
@@ -57,11 +66,29 @@ public class AuthenticationController {
         }
     }
 
-    // For normal user login (Doctor/Patient)
+    // Unified login for Admin, Doctor, and Patient
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequest) {
         try {
-            // Authenticate user credentials
+            // Check if it's an admin login
+            Optional<Admin> adminOpt = adminRepo.findByEmailAndIsActive(loginRequest.getEmail(), true);
+            if (adminOpt.isPresent()) {
+                Admin admin = adminOpt.get();
+                if (passwordEncoder.matches(loginRequest.getPassword(), admin.getPassword())) {
+                    UserDetails adminDetails = org.springframework.security.core.userdetails.User
+                            .withUsername(admin.getEmail())
+                            .password(admin.getPassword())
+                            .roles("ADMIN")
+                            .build();
+                    String jwt = jwtService.generateToken(adminDetails);
+                    return ResponseEntity.ok(new LoginResponseDTO(jwt, "Admin login successful"));
+                } else {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(new LoginResponseDTO(null, "Invalid email or password"));
+                }
+            }
+            
+            // Normal user authentication (Doctor/Patient)
             authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                     loginRequest.getEmail(), 
@@ -81,28 +108,23 @@ public class AuthenticationController {
                 Doctor doctor = doctorRepo.findByUserId(user.getId());
 
                 if (doctor != null && doctor.isApproved()) {
-                    // ✅ Doctor is approved - generate token
                     final String jwt = jwtService.generateToken(userDetails);
-                    return ResponseEntity.ok(new LoginResponseDTO(jwt, "Login successful"));
+                    return ResponseEntity.ok(new LoginResponseDTO(jwt, "Doctor login successful"));
                 } else {
-                    // ❌ Doctor is not approved - return error with message field
                     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
                         new LoginResponseDTO(null, "Your doctor account is not approved yet. Contact admin or wait for approval.")
                     );
                 }
             } else {
-                // ✅ Patient or Admin - generate token directly
                 final String jwt = jwtService.generateToken(userDetails);
-                return ResponseEntity.ok(new LoginResponseDTO(jwt, "Login successful"));
+                return ResponseEntity.ok(new LoginResponseDTO(jwt, "Patient login successful"));
             }
 
         } catch (BadCredentialsException e) {
-            // Invalid email or password
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
                 new LoginResponseDTO(null, "Invalid email or password")
             );
         } catch (Exception e) {
-            // Any other error
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                 new LoginResponseDTO(null, "An error occurred during login: " + e.getMessage())
             );
