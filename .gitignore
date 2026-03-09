@@ -31,7 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
-<<<<<<< HEAD
-".env" 
-=======
->>>>>>> origin/main
+
+### Secrets ###
+.env
+secrets.txt
