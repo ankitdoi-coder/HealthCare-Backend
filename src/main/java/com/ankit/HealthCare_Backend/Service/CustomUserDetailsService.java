@@ -3,6 +3,10 @@ package com.ankit.HealthCare_Backend.Service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< HEAD
+=======
+import org.springframework.beans.factory.annotation.Value;
+>>>>>>> origin/main
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,16 +24,25 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepo; 
     // These values are injected from your application.properties file
+<<<<<<< HEAD
     // @Value("${app.admin.email}")
     // private String adminEmail;
 
     // @Value("${app.admin.password}")
     // private String adminPasswordHash; // This is the HASHED password
+=======
+    @Value("${app.admin.email}")
+    private String adminEmail;
+
+    @Value("${app.admin.password}")
+    private String adminPasswordHash; // This is the HASHED password
+>>>>>>> origin/main
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         // --- Step 1: Check if the login is for the hardcoded admin ---
+<<<<<<< HEAD
         // if (adminEmail.equals(email)) {
         //     return org.springframework.security.core.userdetails.User
         //             .withUsername(adminEmail)
@@ -37,6 +50,15 @@ public class CustomUserDetailsService implements UserDetailsService {
         //             .roles("ADMIN")
         //             .build();
         // }
+=======
+        if (adminEmail.equals(email)) {
+            return org.springframework.security.core.userdetails.User
+                    .withUsername(adminEmail)
+                    .password(adminPasswordHash) // Use the hashed password from properties
+                    .roles("ADMIN")
+                    .build();
+        }
+>>>>>>> origin/main
 
         User user = userRepo.findByEmail(email);
         if (user == null) {

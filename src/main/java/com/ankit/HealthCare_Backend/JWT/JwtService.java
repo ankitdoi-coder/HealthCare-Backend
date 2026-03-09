@@ -44,6 +44,7 @@ public class JwtService {
                 .compact();
     }
 
+<<<<<<< HEAD
     // Admin Token Generator
     public String generateAdminToken(String email, String role) {
         return Jwts.builder()
@@ -55,6 +56,8 @@ public class JwtService {
                 .compact();
     }
 
+=======
+>>>>>>> origin/main
     // Check token owner matches the UserDetails
     // Check token is not expired.
     public boolean isTokenValid(String token, UserDetails userDetails) {

@@ -14,4 +14,9 @@ public class democontroller {
     public String home() {
         return "✅ Backend is running successfully!";
     }
+
+    @GetMapping("/greeting")
+    public ResponseEntity<String> sayHello() {
+        return ResponseEntity.ok("Hello from a SECURED endpoint!");
+    }
 }
