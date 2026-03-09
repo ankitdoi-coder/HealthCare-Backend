@@ -48,7 +48,7 @@ public class AuthenticationController {
     private AdminRepository adminRepo;
     @Autowired
     private PasswordEncoder passwordEncoder;
-
+    
     private final CustomUserDetailsService customUserDetailsService;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
