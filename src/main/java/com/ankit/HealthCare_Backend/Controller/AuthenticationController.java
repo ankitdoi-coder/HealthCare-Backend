@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import lombok.RequiredArgsConstructor;
-
 import com.ankit.HealthCare_Backend.DTO.ForgotPasswordRequestDTO;
 import com.ankit.HealthCare_Backend.DTO.LoginRequestDTO;
 import com.ankit.HealthCare_Backend.DTO.LoginResponseDTO;
@@ -32,8 +30,10 @@ import com.ankit.HealthCare_Backend.JWT.JwtService;
 import com.ankit.HealthCare_Backend.Repository.AdminRepository;
 import com.ankit.HealthCare_Backend.Repository.DoctorRepository;
 import com.ankit.HealthCare_Backend.Repository.UserRepository;
-import com.ankit.HealthCare_Backend.Service.CustomUserDetailsService;
 import com.ankit.HealthCare_Backend.Service.AuthService.AuthService;
+import com.ankit.HealthCare_Backend.Service.CustomUserDetailsService;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -70,7 +70,7 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequest) {
         try {
-            // Check if it's an admin login
+            // First, attempt to authenticate as an Admin (if an active admin exists with this email)
             Optional<Admin> adminOpt = adminRepo.findByEmailAndIsActive(loginRequest.getEmail(), true);
             if (adminOpt.isPresent()) {
                 Admin admin = adminOpt.get();
@@ -82,20 +82,17 @@ public class AuthenticationController {
                             .build();
                     String jwt = jwtService.generateToken(adminDetails);
                     return ResponseEntity.ok(new LoginResponseDTO(jwt, "Admin login successful"));
-                } else {
-                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                        .body(new LoginResponseDTO(null, "Invalid email or password"));
                 }
             }
-            
-            // Normal user authentication (Doctor/Patient)
+
+            // If admin login did not succeed, fall back to the normal user (Doctor/Patient) login flow
             authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                     loginRequest.getEmail(), 
                     loginRequest.getPassword()
                 )
             );
-            
+
             // If we get here, user is authenticated
             final UserDetails userDetails = customUserDetailsService.loadUserByUsername(loginRequest.getEmail());
 
